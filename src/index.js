@@ -33,12 +33,12 @@ const config = {
 };
 // -------------------------
 
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker
-    .register("sw.js")
-    .then((reg) => console.info("Service worker registered: ", reg))
-    .catch((err) => console.error("Error registering service worker: ", err));
-}
+// if ("serviceWorker" in navigator) {
+//   navigator.serviceWorker
+//     .register("sw.js")
+//     .then((reg) => console.info("Service worker registered: ", reg))
+//     .catch((err) => console.error("Error registering service worker: ", err));
+// }
 
 // -------------------------
 // Starting the game

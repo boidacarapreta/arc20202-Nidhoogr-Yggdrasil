@@ -6,7 +6,8 @@ import Phaser from "phaser";
 // -------------------------
 // Import all the exports on the file index.js on the
 // assets folder as an object with directories location
-import * as assets from "../assets";
+import * as images from "../assets/images";
+import * as audio from "../assets/audio";
 // -------------------------
 
 // -------------------------
@@ -17,53 +18,62 @@ class GameScene extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image("ground", assets.ground);
-    this.load.image("layer0", assets.layer0);
-    this.load.image("layer1", assets.layer1);
-    this.load.image("layer2", assets.layer2);
-    this.load.image("layer3", assets.layer3);
-    this.load.image("layer4", assets.layer4);
+    this.load.audio("backgroundMusic", audio.runGameMusic);
 
-    // this.load.audio('backgroundMusic', assets.backgroundMusic)
+    this.load.audio("jumpSound1", audio.jumpSound1);
+    this.load.audio("jumpSound2", audio.jumpSound2);
+    this.load.audio("jumpSound3", audio.jumpSound3);
 
-    this.load.audio("jumpAudio", "../assets/audio/jump/jump_01.mp3");
+    this.load.image("ground", images.ground);
+    this.load.image("layer0", images.layer0);
+    this.load.image("layer1", images.layer1);
+    this.load.image("layer2", images.layer2);
+    this.load.image("layer3", images.layer3);
+    this.load.image("layer4", images.layer4);
 
-    this.load.spritesheet("playerRun", assets.playerRun, {
+    this.load.spritesheet("playerRun", images.playerRun, {
       frameWidth: 32,
       frameHeight: 32,
     });
-    this.load.spritesheet("playerJump", assets.playerJump, {
+    this.load.spritesheet("playerJump", images.playerJump, {
       frameWidth: 32,
       frameHeight: 32,
     });
   }
 
   create() {
-    // -------------------------
-    //
-    // this.sound.add('backgroundMusic').play
-    // this.jumpAudio = this.sound.add("jumpAudio");
-    // -------------------------
+    // Adding sound to the game
+    this.backgroundMusic = this.sound.add("backgroundMusic", {
+      volume: 0.2,
+      loop: true,
+    });
+
+    this.jumpSound1 = this.sound.add("jumpSound1", {
+      volume: 0.3,
+    });
+
+    this.jumpSound2 = this.sound.add("jumpSound2", {
+      volume: 0.3,
+    });
+
+    this.jumpSound3 = this.sound.add("jumpSound3", {
+      volume: 0.3,
+    });
+
+    this.jumpSound = [this.jumpSound1, this.jumpSound2, this.jumpSound3];
+
+    this.backgroundMusic.play();
 
     // -------------------------
     // Background Layers (inert)
-    //
 
     // layer0
-    this.add
-      .image(0, 0, "layer0")
-      //
-      .setOrigin(0, 0);
+    this.add.image(0, 0, "layer0").setOrigin(0, 0);
 
     // layer2
-    this.add
-      .image(0, 0, "layer2")
-      //
-      .setOrigin(0, 0);
+    this.add.image(0, 0, "layer2").setOrigin(0, 0);
 
-    //
     //  Parallax - Start
-    //
 
     // Get the window sizes
     let windowWidth = window.innerWidth;
@@ -161,7 +171,9 @@ class GameScene extends Phaser.Scene {
 
   jump() {
     if (this.player.body.touching.down) {
-      // this.jumpAudio.play();
+      const randomIndex = Math.floor(Math.random() * 3);
+
+      this.jumpSound[randomIndex].play();
       this.player.setVelocityX(50);
       this.player.setVelocityY(5000000);
     }
@@ -196,6 +208,7 @@ class GameScene extends Phaser.Scene {
   update() {
     if (this.player.y > 720) {
       this.scene.start("EndGameScene");
+      this.backgroundMusic.stop();
     }
 
     if (!this.player.body.touching.down) {
