@@ -18,17 +18,28 @@ class LobbyScene extends Phaser.Scene {
   create() {
     console.log("LobbyScene loaded");
 
-    // this.socket = io();
+    const playerOneFeedback = this.add
+      .text(640, 250, "Player 1: waiting... ", {
+        font: "30pt Arial",
+      })
+      .setOrigin(0.5, 0.5);
 
-    // this.socket.on("connection");
+    const playerTwoFeedback = this.add
+      .text(640, 350, "Player 2: waiting... ", {
+        font: "30pt Arial",
+      })
+      .setOrigin(0.5, 0.5);
 
-    // this.add
-    //   .text(640, 400, `Players: ${this.socket.clients}`, {
-    //     font: "30pt Arial",
-    //   })
-    //   .setOrigin(0.5, 0.5);
+    this.socket = io();
 
-    // Creating interactive text to go back to mode selection scene
+    this.socket.on("players", (players) => {
+      console.log(players);
+
+      players.first && playerOneFeedback.setText("Player 1: OK");
+
+      players.second && playerTwoFeedback.setText("Player 2: OK");
+    });
+
     this.add
       .text(640, 460, "Go back", {
         font: "30pt Arial",

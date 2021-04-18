@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <title>Yggdrasil</title>
+
+    <meta
+      name="author"
+      content="Gabriel Luiz Espindola Pedro, Leonardo de Oliveira Dias and Gabrielly Cristina"
+    />
+
+    <meta name="apple-mobile-web-app-title" content="Yggdrasil" />
+
+    <meta name="application-name" content="Yggdrasil" />
+
+    <meta name="msapplication-navbutton-color" content="#000000" />
+    <meta name="msapplication-starturl" content="./index.html" />
+
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+    <meta name="theme-color" content="#000000" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link rel="manifest" href="./manifest.json" />
+
+    <link
+      rel="icon"
+      sizes="128x128"
+      href="./src/assets/images/logo/logo128.png"
+    />
+    <link
+      rel="icon"
+      sizes="192x192"
+      href="./src/assets/images/logo/logo192.png"
+    />
+    <link
+      rel="icon"
+      sizes="256x256"
+      href="./src/assets/images/logo/logo256.png"
+    />
+    <link
+      rel="icon"
+      sizes="384x384"
+      href="./src/assets/images/logo/logo384.png"
+    />
+    <link
+      rel="icon"
+      sizes="512x512"
+      href="./src/assets/images/logo/logo512.png"
+    />
+
+    <link
+      rel="apple-touch-icon"
+      sizes="128x128"
+      href="./src/assets/images/logo/logo128.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="192x192"
+      href="./src/assets/images/logo/logo192.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="256x256"
+      href="./src/assets/images/logo/logo256.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="384x384"
+      href="./src/assets/images/logo/logo384.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="512x512"
+      href="./src/assets/images/logo/logo512.png"
+    />
+
+    <link rel="stylesheet" href="index.css" />
+
+    <script type="text/javascript">
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker
+          .register("sw.js")
+          .then((reg) => console.info("Service worker registered: ", reg))
+          .catch((err) =>
+            console.error("Error registering service worker: ", err)
+          );
+      }
+    </script>
+  </head>
+  <body><script type="text/javascript" src="bundle.min.js"></script></body>
+</html>
