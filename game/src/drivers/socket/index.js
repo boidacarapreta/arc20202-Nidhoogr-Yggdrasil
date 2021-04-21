@@ -1,5 +1,5 @@
-import webSocketClient from "socket.io-client";
+import io from "socket.io-client";
 
-const socket = webSocketClient();
+const socket = io();
 
 export default socket;

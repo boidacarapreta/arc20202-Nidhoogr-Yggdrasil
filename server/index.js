@@ -1,36 +1,65 @@
-// Import dependencies;
 const express = require("express");
-const io = require("socket.io");
-const bodyParser = require("body-parser");
-const cors = require("cors");
 
-// Import modules;
-const observer = require("./subscribers/observer");
+const app = express();
+const server = require("http").Server(app);
 
-class app {
-  constructor() {
-    this.server = express();
-  }
+const PORT = 1506;
 
-  init() {
-    // Set server configurations;
-    this.server.use(bodyParser.json());
-    this.server.use(cors());
-    this.server.use(bodyParser.urlencoded({ extended: false }));
+const io = require("socket.io")(server);
 
-    // Initialize http server;
-    const HttpServer = this.server.listen(1506);
-    console.log("[HTTP Server] HTTP server initialized");
+const connectedUsers = [];
 
-    // Start web-socket server;
-    const webSocketServer = io(HttpServer, {
-      path: "/api/websocket/real-time",
-    });
-    console.log("[Websocket Server] Websocket Server initialized");
+let multiplayerRoom = [];
 
-    // Start event observer on web-socket server;
-    new observer().listen(webSocketServer);
-  }
-}
+io.on("connection", (socket) => {
+  connectedUsers.push(socket.id);
+  console.log(connectedUsers);
 
-new app().init();
+  socket.on("joinLobby", () => {
+    if (multiplayerRoom.length <= 3) {
+      multiplayerRoom.push(socket.id);
+      joinLobby(socket);
+    } else {
+      socket.emit("roomIsFull");
+    }
+  });
+
+  socket.on("leaveLobby", () => {
+    leaveLobby(socket);
+  });
+
+  socket.on("disconnect", () => {
+    leaveLobby();
+
+    const leaverIndex = connectedUsers.findIndex((user) => user === socket.id);
+
+    connectedUsers.splice(leaverIndex, 1);
+
+    console.log(connectedUsers);
+  });
+});
+
+const joinLobby = (socket) => {
+  socket.emit("joinedLobby");
+
+  setTimeout(() => {
+    io.emit("playerJoinedRoom", multiplayerRoom);
+  }, 500);
+};
+
+const leaveLobby = (socket) => {
+  const multiplayerLeaverIndex = multiplayerRoom.findIndex(
+    (user) => user === socket.id
+  );
+
+  multiplayerRoom.splice(multiplayerLeaverIndex, 1);
+};
+setInterval(() => {
+  let randomX = 1200 - Math.random() * 200;
+  let randomY = 600 - Math.random() * 100;
+
+  io.emit("newPlataform", { x: randomX, y: randomY });
+}, 2500);
+
+app.use(express.static("../game/dist"));
+server.listen(PORT, () => console.log(`Server listening on port ${PORT}!`));

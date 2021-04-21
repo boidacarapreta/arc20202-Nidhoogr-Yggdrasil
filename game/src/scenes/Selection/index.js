@@ -1,5 +1,7 @@
 import Phaser from "phaser";
 
+import { socket } from "../../drivers";
+
 import {
   highClouds,
   lowClouds,
@@ -17,6 +19,7 @@ class Selection extends Phaser.Scene {
   }
 
   create() {
+    this.socketListener();
     this.createBackground();
     this.createTexts();
   }
@@ -50,7 +53,7 @@ class Selection extends Phaser.Scene {
       .on(
         "pointerdown",
         () => {
-          this.scene.start("Lobby");
+          socket.emit("joinLobby");
         },
         this
       );
@@ -101,6 +104,16 @@ class Selection extends Phaser.Scene {
     this.lowClouds.tilePositionX += 0.15;
     this.montainTips.tilePositionX += 0.1;
     this.highClouds.tilePositionX += 0.2;
+  }
+
+  socketListener() {
+    socket.on("roomIsFull", () => {
+      alert("Multiplayer room is full, try again later");
+    });
+
+    socket.on("joinedLobby", () => {
+      this.scene.start("Lobby");
+    });
   }
 }
 

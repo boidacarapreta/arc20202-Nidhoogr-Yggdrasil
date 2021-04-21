@@ -1,5 +1,7 @@
 import Phaser from "phaser";
 
+import { socket } from "../../drivers";
+
 import {
   highClouds,
   lowClouds,
@@ -269,23 +271,17 @@ class Multiplayer extends Phaser.Scene {
     this.plataformGroup.add(this.plataformTwo);
     this.plataformGroup.add(this.plataformThree);
 
-    this.time.addEvent({
-      delay: 2500,
-      loop: true,
-      callbackScope: this,
-      callback: () => {
-        let randomY = 600 - Math.random() * 100;
-        let randomX = 1200 - Math.random() * 200;
+    socket.on("newPlataform", (coordinates) => {
+      console.log("generating new plataform");
 
-        const newPlataform = this.physics.add
-          .sprite(randomX, randomY, "plataform")
-          .setScale(2)
-          .setVelocityX(-200)
-          .setImmovable(true)
-          .setOffset(12, 12);
+      const newPlataform = this.physics.add
+        .sprite(coordinates.x, coordinates.y, "plataform")
+        .setScale(2)
+        .setVelocityX(-200)
+        .setImmovable(true)
+        .setOffset(12, 12);
 
-        this.plataformGroup.add(newPlataform);
-      },
+      this.plataformGroup.add(newPlataform);
     });
   }
 
