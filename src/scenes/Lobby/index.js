@@ -1,5 +1,7 @@
 import Phaser from "phaser";
 
+import { socket } from "../../drivers";
+
 class Lobby extends Phaser.Scene {
   constructor() {
     super({ key: "Lobby" });

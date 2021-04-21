@@ -36,7 +36,7 @@ class SinglePlayer extends Phaser.Scene {
 
   create() {
     this.createBackground();
-    this.createPlayers();
+    // this.createPlayers();
     this.createJumpSounds();
     this.createScore();
 
@@ -48,8 +48,8 @@ class SinglePlayer extends Phaser.Scene {
     this.gameControl();
     this.incrementScore();
 
-    this.animatePlayerSprites();
-    this.playAnimations();
+    // this.animatePlayerSprites();
+    // this.playAnimations();
   }
 
   update() {
