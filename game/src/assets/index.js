@@ -3,6 +3,16 @@ import lowClouds from "./images/background/lowClouds.png";
 import montainTips from "./images/background/montainTips.png";
 import skyBackground from "./images/background/skyBackground.png";
 
+import redSky from "./images/background/redSky.png";
+import redWood from "./images/background/redWood.png";
+import woodDetails from "./images/background/woodDetails.png";
+import forest from "./images/background/forest.png";
+
+import greenSky from "./images/background/greenSky.png";
+import jungleLights from "./images/background/jungleLights.png";
+import farJungle from "./images/background/farJungle.png";
+import closerJungle from "./images/background/closerJungle.png";
+
 import DudeJump from "./images/DudeMonster/Dude_Monster_Jump_8.png";
 import DudeRun from "./images/DudeMonster/Dude_Monster_Run_6.png";
 
@@ -18,11 +28,24 @@ import jumpSoundVariantOne from "./audio/jumpSounds/jumpSoundVariantOne.wav";
 import jumpSoundVariantTwo from "./audio/jumpSounds/jumpSoundVariantTwo.wav";
 import jumpSoundVariantThree from "./audio/jumpSounds/jumpSoundVariantThree.wav";
 
+import introMusic from "./audio/music/introMusic.wav";
+import runGameMusic from "./audio/music/runGameMusic.wav";
+
 export {
   highClouds,
   lowClouds,
   montainTips,
   skyBackground,
+  //----
+  redSky,
+  redWood,
+  woodDetails,
+  forest,
+  //----
+  greenSky,
+  jungleLights,
+  farJungle,
+  closerJungle,
   //----
   DudeJump,
   DudeRun,
@@ -38,4 +61,7 @@ export {
   jumpSoundVariantOne,
   jumpSoundVariantTwo,
   jumpSoundVariantThree,
+  //----
+  introMusic,
+  runGameMusic,
 };

@@ -57,6 +57,8 @@ class SinglePlayer extends Phaser.Scene {
     this.animationSelector();
 
     this.centralizePlayers();
+
+    this.death();
   }
 
   //Custom methods
@@ -247,21 +249,21 @@ class SinglePlayer extends Phaser.Scene {
       .setScale(2)
       .setVelocityX(-200)
       .setImmovable(true)
-      .setOffset(12, 12);
+      .setOffset(0, 12);
 
     this.plataformTwo = this.physics.add
       .sprite(700, 550, "plataform")
       .setScale(2)
       .setVelocityX(-200)
       .setImmovable(true)
-      .setOffset(12, 12);
+      .setOffset(0, 12);
 
     this.plataformThree = this.physics.add
       .sprite(1100, 500, "plataform")
       .setScale(2)
       .setVelocityX(-200)
       .setImmovable(true)
-      .setOffset(12, 12);
+      .setOffset(0, 12);
 
     this.plataformGroup = this.add.group();
 
@@ -282,7 +284,7 @@ class SinglePlayer extends Phaser.Scene {
           .setScale(2)
           .setVelocityX(-200)
           .setImmovable(true)
-          .setOffset(12, 12);
+          .setOffset(0, 12);
 
         this.plataformGroup.add(newPlataform);
       },
@@ -379,6 +381,12 @@ class SinglePlayer extends Phaser.Scene {
         firstChildren.destroy();
       },
     });
+  }
+
+  death() {
+    // console.log(this.DudeMonster.y);
+    this.DudeMonster.y > this.game.config.height &&
+      this.scene.start("GameOver");
   }
 }
 

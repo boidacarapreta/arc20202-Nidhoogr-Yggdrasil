@@ -1,0 +1,32 @@
+{
+  "name": "Yggdrasil",
+  "short_name": "Yggdrasil",
+  "lang": "pt-BR",
+  "start_url": "index.html",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#000000",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "./src/assets/images/logo/logo128.png",
+      "sizes": "128x128"
+    },
+    {
+      "src": "./src/assets/images/logo/logo192.png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "./src/assets/images/logo/logo256.png",
+      "sizes": "256x256"
+    },
+    {
+      "src": "./src/assets/images/logo/logo384.png",
+      "sizes": "384x384"
+    },
+    {
+      "src": "./src/assets/images/logo/logo512.png",
+      "sizes": "512x512"
+    }
+  ]
+}

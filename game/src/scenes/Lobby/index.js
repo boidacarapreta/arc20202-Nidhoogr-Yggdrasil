@@ -59,7 +59,9 @@ class Lobby extends Phaser.Scene {
 
     this.add
       .text(350, 450, "Go back", {
-        font: "20pt Arial",
+        fill: "535353",
+        font: "900 35px Courier",
+        resolution: 5,
       })
       .setInteractive()
       .setOrigin(0.5, 0.5)
