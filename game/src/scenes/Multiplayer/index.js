@@ -2,6 +2,8 @@ import Phaser from "phaser";
 
 import { socket } from "../../drivers";
 
+import { localConnection, remoteConnection, midias, audio } from "../../";
+
 import {
   highClouds,
   lowClouds,
@@ -374,6 +376,28 @@ class Multiplayer extends Phaser.Scene {
 
         firstChildren.destroy();
       },
+    });
+  }
+
+  socketListener() {
+    socket.on("offer", (socketId, description) => {
+      remoteConnection = new RTCPeerConnection(ice_servers);
+      midias
+        .getTracks()
+        .forEach((track) => remoteConnection.addTrack(track, midias));
+      remoteConnection.onicecandidate = ({ candidate }) => {
+        candidate && socket.emit("candidate", socketId, candidate);
+      };
+      remoteConnection.ontrack = ({ streams: [midias] }) => {
+        audio.srcObject = midias;
+      };
+      remoteConnection
+        .setRemoteDescription(description)
+        .then(() => remoteConnection.createAnswer())
+        .then((answer) => remoteConnection.setLocalDescription(answer))
+        .then(() => {
+          socket.emit("answer", socketId, remoteConnection.localDescription);
+        });
     });
   }
 }

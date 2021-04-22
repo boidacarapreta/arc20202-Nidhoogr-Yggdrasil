@@ -7,53 +7,35 @@ const PORT = 1506;
 
 const io = require("socket.io")(server);
 
-const connectedUsers = [];
-
-let multiplayerRoom = [];
+const users = [];
 
 io.on("connection", (socket) => {
-  connectedUsers.push(socket.id);
-  console.log(connectedUsers);
+  users.push(socket.id);
+  console.log(`Logged [${users}]`);
 
-  socket.on("joinLobby", () => {
-    if (multiplayerRoom.length <= 3) {
-      multiplayerRoom.push(socket.id);
-      joinLobby(socket);
-    } else {
-      socket.emit("roomIsFull");
-    }
+  socket.on("offer", (socketId, description) => {
+    socket.to(socketId).emit("offer", socket.id, description);
   });
 
-  socket.on("leaveLobby", () => {
-    leaveLobby(socket);
+  // Sinalização de áudio: atendimento da oferta
+  socket.on("answer", (socketId, description) => {
+    socket.to(socketId).emit("answer", description);
+  });
+
+  // Sinalização de áudio: envio dos candidatos de caminho
+  socket.on("candidate", (socketId, signal) => {
+    socket.to(socketId).emit("candidate", signal);
   });
 
   socket.on("disconnect", () => {
-    leaveLobby();
+    const leaverIndex = users.findIndex((user) => user === socket.id);
 
-    const leaverIndex = connectedUsers.findIndex((user) => user === socket.id);
+    users.splice(leaverIndex, 1);
 
-    connectedUsers.splice(leaverIndex, 1);
-
-    console.log(connectedUsers);
+    console.log(`Logged [${users}]`);
   });
 });
 
-const joinLobby = (socket) => {
-  socket.emit("joinedLobby");
-
-  setTimeout(() => {
-    io.emit("playerJoinedRoom", multiplayerRoom);
-  }, 500);
-};
-
-const leaveLobby = (socket) => {
-  const multiplayerLeaverIndex = multiplayerRoom.findIndex(
-    (user) => user === socket.id
-  );
-
-  multiplayerRoom.splice(multiplayerLeaverIndex, 1);
-};
 setInterval(() => {
   let randomX = 1200 - Math.random() * 200;
   let randomY = 600 - Math.random() * 100;
