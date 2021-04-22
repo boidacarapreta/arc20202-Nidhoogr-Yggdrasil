@@ -2,7 +2,13 @@ import Phaser from "phaser";
 
 import { socket } from "../../drivers";
 
-import { localConnection, remoteConnection, midias, audio } from "../../";
+import {
+  localConnection,
+  remoteConnection,
+  midias,
+  audio,
+  ice_servers,
+} from "../../";
 
 import {
   highClouds,
