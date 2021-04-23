@@ -13,20 +13,6 @@ io.on("connection", (socket) => {
   users.push(socket.id);
   console.log(`Logged [${users}]`);
 
-  socket.on("offer", (socketId, description) => {
-    socket.to(socketId).emit("offer", socket.id, description);
-  });
-
-  // Sinalização de áudio: atendimento da oferta
-  socket.on("answer", (socketId, description) => {
-    socket.to(socketId).emit("answer", description);
-  });
-
-  // Sinalização de áudio: envio dos candidatos de caminho
-  socket.on("candidate", (socketId, signal) => {
-    socket.to(socketId).emit("candidate", signal);
-  });
-
   socket.on("disconnect", () => {
     const leaverIndex = users.findIndex((user) => user === socket.id);
 
