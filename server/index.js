@@ -81,7 +81,7 @@ const removePlayer = (player) => {
 
 setInterval(() => {
   io.emit("players", players);
-}, 2500);
+}, 500);
 
 setInterval(() => {
   let randomX = 1200 - Math.random() * 200;

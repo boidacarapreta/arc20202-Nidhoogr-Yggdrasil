@@ -27,6 +27,9 @@ import {
 class Multiplayer extends Phaser.Scene {
   constructor() {
     super({ key: "Multiplayer" });
+    this.players = false;
+    this.localPlayer = false;
+    this.anotherPlayer = false;
   }
 
   preload() {
@@ -37,6 +40,8 @@ class Multiplayer extends Phaser.Scene {
   }
 
   create() {
+    this.socketListener();
+
     this.createBackground();
     this.createPlayers();
     this.createJumpSounds();
@@ -233,6 +238,7 @@ class Multiplayer extends Phaser.Scene {
 
   centralizePlayers() {
     this.DudeMonster.setX(300);
+    this.OwletMonster.setX(280);
   }
 
   // TODO Remove after tests
@@ -283,8 +289,9 @@ class Multiplayer extends Phaser.Scene {
   }
 
   jump() {
-    if (this.DudeMonster.body.touching.down) {
-      this.DudeMonster.setVelocityY(8000);
+    if (this.localPlayer.sprite.body.touching.down) {
+      socket.emit("anotherPlayerJumped");
+      this.localPlayer.sprite.setVelocityY(8000);
       this.selectRandomJumpSound().play();
     }
   }
@@ -367,19 +374,21 @@ class Multiplayer extends Phaser.Scene {
   }
 
   death() {
-    this.DudeMonster.y > this.game.config.height &&
+    this.localPlayer.y > this.game.config.height &&
       this.scene.start("GameOver");
   }
 
   anotherPlayerJump() {
-    if (this.anotherPlayer.sprite.body.touching.down) {
-      this.anotherPlayer.sprite.setVelocityY(8000);
-      this.selectRandomJumpSound().play();
+    if (this.anotherPlayer) {
+      if (this.anotherPlayer.sprite.body.touching.down) {
+        this.anotherPlayer.sprite.setVelocityY(8000);
+        this.selectRandomJumpSound().play();
+      }
     }
   }
 
   socketListener() {
-    socket.on("player", (playerList) => {
+    socket.on("players", (playerList) => {
       this.players = playerList;
 
       if (playerList.first === socket.id) {
@@ -392,7 +401,7 @@ class Multiplayer extends Phaser.Scene {
           sprite: this.OwletMonster,
           id: playerList.second,
         }; //"second";
-      } else {
+      } else if (playerList.second === socket.id) {
         this.localPlayer = {
           sprite: this.OwletMonster,
           id: socket.id,
@@ -404,9 +413,9 @@ class Multiplayer extends Phaser.Scene {
         }; //"first";
       }
 
-      console.log(`playerList ${this.players}`);
-      console.log(`localPlayer ${this.localPlayer}`);
-      console.log(`anotherPlayer ${this.anotherPlayer}`);
+      // console.log(`playerList ${this.players}`);
+      // console.log(`localPlayer ${this.localPlayer}`);
+      // console.log(`anotherPlayer ${this.anotherPlayer}`);
     });
 
     socket.on("anotherPlayerJump", this.anotherPlayerJump());

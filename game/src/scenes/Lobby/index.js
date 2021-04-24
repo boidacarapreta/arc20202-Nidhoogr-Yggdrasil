@@ -205,10 +205,6 @@ class Lobby extends Phaser.Scene {
     //------------------------
 
     socket.on("players", (playerList) => {
-      console.log(
-        `Playerlist by 'players' emit: ${playerList.first} ${playerList.second}`
-      );
-
       this.players = playerList;
 
       this.playerOneText.setText(
