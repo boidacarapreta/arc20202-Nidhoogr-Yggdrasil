@@ -20,6 +20,8 @@ import {
   jumpSoundVariantOne,
   jumpSoundVariantTwo,
   jumpSoundVariantThree,
+  //----
+  introMusic,
 } from "../../assets";
 
 class SinglePlayer extends Phaser.Scene {
@@ -32,6 +34,7 @@ class SinglePlayer extends Phaser.Scene {
     this.loadPlayersSprites();
     this.loadPlataform();
     this.loadJumpSounds();
+    this.loadMusic();
   }
 
   create() {
@@ -50,6 +53,7 @@ class SinglePlayer extends Phaser.Scene {
 
     this.animatePlayerSprites();
     this.playAnimations();
+    this.playMusic();
   }
 
   update() {
@@ -384,9 +388,23 @@ class SinglePlayer extends Phaser.Scene {
   }
 
   death() {
-    // console.log(this.DudeMonster.y);
-    this.DudeMonster.y > this.game.config.height &&
+    if (this.DudeMonster.y > this.game.config.height) {
+      this.introMusic.stop();
       this.scene.start("GameOver");
+    }
+  }
+
+  loadMusic() {
+    this.load.audio("introMusic", introMusic);
+  }
+
+  playMusic() {
+    this.introMusic = this.sound.add("introMusic", {
+      volume: 0.1,
+      loop: true,
+    });
+
+    this.introMusic.play();
   }
 }
 

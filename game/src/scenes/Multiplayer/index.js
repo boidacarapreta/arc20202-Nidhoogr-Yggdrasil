@@ -3,14 +3,6 @@ import Phaser from "phaser";
 import { socket } from "../../drivers";
 
 import {
-  localConnection,
-  remoteConnection,
-  midias,
-  audio,
-  ice_servers,
-} from "../../";
-
-import {
   highClouds,
   lowClouds,
   montainTips,
@@ -46,16 +38,16 @@ class Multiplayer extends Phaser.Scene {
 
   create() {
     this.createBackground();
-    // this.createPlayers();
+    this.createPlayers();
     this.createJumpSounds();
     this.createScore();
 
     this.createPlataform();
     this.removeUnseenPlataforms();
 
-    this.addColiders();
+    // this.addColiders();
 
-    this.gameControl();
+    // this.gameControl();
     this.incrementScore();
 
     // this.animatePlayerSprites();
@@ -67,18 +59,20 @@ class Multiplayer extends Phaser.Scene {
     // this.animationSelector();
 
     // this.centralizePlayers();
+
+    // this.death();
   }
 
   //Custom methods
   loadBackground() {
-    this.load.image("highClouds", highClouds);
-    this.load.image("lowClouds", lowClouds);
-    this.load.image("montainTips", montainTips);
-    this.load.image("skyBackground", skyBackground);
+    this.load.image("highCloudsMP", highClouds);
+    this.load.image("lowCloudsMP", lowClouds);
+    this.load.image("montainTipsMP", montainTips);
+    this.load.image("skyBackgroundMP", skyBackground);
   }
 
   createBackground() {
-    this.add.image(0, 0, "skyBackground").setOrigin(0, 0);
+    this.add.image(0, 0, "skyBackgroundMP").setOrigin(0, 0);
 
     this.lowClouds = this.add
       .tileSprite(
@@ -86,7 +80,7 @@ class Multiplayer extends Phaser.Scene {
         1,
         this.game.config.width,
         this.game.config.height,
-        "lowClouds"
+        "lowCloudsMP"
       )
       .setOrigin(0, 0);
 
@@ -96,7 +90,7 @@ class Multiplayer extends Phaser.Scene {
         0,
         this.game.config.width,
         this.game.config.height,
-        "montainTips"
+        "montainTipsMP"
       )
       .setOrigin(0, 0);
 
@@ -106,7 +100,7 @@ class Multiplayer extends Phaser.Scene {
         0,
         this.game.config.width,
         this.game.config.height,
-        "highClouds"
+        "highCloudsMP"
       )
       .setOrigin(0, 0);
   }
@@ -118,32 +112,32 @@ class Multiplayer extends Phaser.Scene {
   }
 
   loadPlayersSprites() {
-    this.load.spritesheet("DudeJump", DudeJump, {
+    this.load.spritesheet("DudeJumpMP", DudeJump, {
       frameWidth: 32,
       frameHeight: 32,
     });
 
-    this.load.spritesheet("DudeRun", DudeRun, {
+    this.load.spritesheet("DudeRunMP", DudeRun, {
       frameWidth: 32,
       frameHeight: 32,
     });
 
-    this.load.spritesheet("OwletJump", OwletJump, {
+    this.load.spritesheet("OwletJumpMP", OwletJump, {
       frameWidth: 32,
       frameHeight: 32,
     });
 
-    this.load.spritesheet("OwletRun", OwletRun, {
+    this.load.spritesheet("OwletRunMP", OwletRun, {
       frameWidth: 32,
       frameHeight: 32,
     });
 
-    this.load.spritesheet("PinkJump", PinkJump, {
+    this.load.spritesheet("PinkJumpMP", PinkJump, {
       frameWidth: 32,
       frameHeight: 32,
     });
 
-    this.load.spritesheet("PinkRun", PinkRun, {
+    this.load.spritesheet("PinkRunMP", PinkRun, {
       frameWidth: 32,
       frameHeight: 32,
     });
@@ -151,60 +145,60 @@ class Multiplayer extends Phaser.Scene {
 
   animatePlayerSprites() {
     this.anims.create({
-      key: "DudeJumpAnimation",
+      key: "DudeJumpAnimationMP",
       frameRate: 8,
       repeat: -1,
-      frames: this.anims.generateFrameNumbers("DudeJump", {
+      frames: this.anims.generateFrameNumbers("DudeJumpMP", {
         start: 1,
         end: 8,
       }),
     });
 
     this.anims.create({
-      key: "DudeRunAnimation",
+      key: "DudeRunAnimationMP",
       frameRate: 15,
       repeat: -1,
-      frames: this.anims.generateFrameNumbers("DudeRun", {
+      frames: this.anims.generateFrameNumbers("DudeRunMP", {
         start: 1,
         end: 6,
       }),
     });
 
     this.anims.create({
-      key: "OwletJumpAnimation",
+      key: "OwletJumpAnimationMP",
       frameRate: 8,
       repeat: -1,
-      frames: this.anims.generateFrameNumbers("OwletJump", {
+      frames: this.anims.generateFrameNumbers("OwletJumpMP", {
         start: 1,
         end: 8,
       }),
     });
 
     this.anims.create({
-      key: "OwletRunAnimation",
+      key: "OwletRunAnimationMP",
       frameRate: 15,
       repeat: -1,
-      frames: this.anims.generateFrameNumbers("OwletRun", {
+      frames: this.anims.generateFrameNumbers("OwletRunMP", {
         start: 1,
         end: 6,
       }),
     });
 
     this.anims.create({
-      key: "PinkJumpAnimation",
+      key: "PinkJumpAnimationMP",
       frameRate: 8,
       repeat: -1,
-      frames: this.anims.generateFrameNumbers("PinkJump", {
+      frames: this.anims.generateFrameNumbers("PinkJumpMP", {
         start: 1,
         end: 8,
       }),
     });
 
     this.anims.create({
-      key: "PinkRunAnimation",
+      key: "PinkRunAnimationMP",
       frameRate: 15,
       repeat: -1,
-      frames: this.anims.generateFrameNumbers("PinkRun", {
+      frames: this.anims.generateFrameNumbers("PinkRunMP", {
         start: 1,
         end: 6,
       }),
@@ -213,19 +207,19 @@ class Multiplayer extends Phaser.Scene {
 
   createPlayers() {
     this.DudeMonster = this.physics.add
-      .sprite(300, 200, "DudeRun")
+      .sprite(300, 200, "DudeRunMP")
       .setScale(2)
       .setGravityY(600)
       .setBounce(0.05);
 
     this.OwletMonster = this.physics.add
-      .sprite(400, 200, "OwletRun")
+      .sprite(400, 200, "OwletRunMP")
       .setScale(2)
       .setGravityY(600)
       .setBounce(0.05);
 
     this.PinkMonster = this.physics.add
-      .sprite(500, 200, "PinkRun")
+      .sprite(500, 200, "PinkRunMP")
       .setScale(2)
       .setGravityY(600)
       .setBounce(0.05);
@@ -243,54 +237,41 @@ class Multiplayer extends Phaser.Scene {
 
   // TODO Remove after tests
   playAnimations() {
-    this.OwletMonster.anims.play("OwletRunAnimation", true);
-    this.PinkMonster.anims.play("PinkRunAnimation", true);
+    this.OwletMonster.anims.play("OwletRunAnimationMP", true);
+    this.PinkMonster.anims.play("PinkRunAnimationMP", true);
   }
 
   loadPlataform() {
-    this.load.image("plataform", plataform);
+    this.load.image("plataformMP", plataform);
   }
 
   createPlataform() {
     this.plataformOne = this.physics.add
-      .sprite(400, 500, "plataform")
+      .sprite(400, 500, "plataformMP")
       .setScale(2)
       .setVelocityX(-200)
       .setImmovable(true)
-      .setOffset(12, 12);
+      .setOffset(0, 12);
 
     this.plataformTwo = this.physics.add
-      .sprite(700, 550, "plataform")
+      .sprite(700, 550, "plataformMP")
       .setScale(2)
       .setVelocityX(-200)
       .setImmovable(true)
-      .setOffset(12, 12);
+      .setOffset(0, 12);
 
     this.plataformThree = this.physics.add
-      .sprite(1100, 500, "plataform")
+      .sprite(1100, 500, "plataformMP")
       .setScale(2)
       .setVelocityX(-200)
       .setImmovable(true)
-      .setOffset(12, 12);
+      .setOffset(0, 12);
 
     this.plataformGroup = this.add.group();
 
     this.plataformGroup.add(this.plataformOne);
     this.plataformGroup.add(this.plataformTwo);
     this.plataformGroup.add(this.plataformThree);
-
-    socket.on("newPlataform", (coordinates) => {
-      console.log("generating new plataform");
-
-      const newPlataform = this.physics.add
-        .sprite(coordinates.x, coordinates.y, "plataform")
-        .setScale(2)
-        .setVelocityX(-200)
-        .setImmovable(true)
-        .setOffset(12, 12);
-
-      this.plataformGroup.add(newPlataform);
-    });
   }
 
   addColiders() {
@@ -310,26 +291,26 @@ class Multiplayer extends Phaser.Scene {
 
   animationSelector() {
     if (this.DudeMonster.body.touching.down) {
-      this.DudeMonster.anims.play("DudeRunAnimation", true);
+      this.DudeMonster.anims.play("DudeRunAnimationMP", true);
     } else {
-      this.DudeMonster.anims.play("DudeJumpAnimation", true);
+      this.DudeMonster.anims.play("DudeJumpAnimationMP", true);
     }
   }
 
   loadJumpSounds() {
-    this.load.audio("jumpSoundVariantOne", jumpSoundVariantOne);
-    this.load.audio("jumpSoundVariantTwo", jumpSoundVariantTwo);
-    this.load.audio("jumpSoundVariantThree", jumpSoundVariantThree);
+    this.load.audio("jumpSoundVariantOneMP", jumpSoundVariantOne);
+    this.load.audio("jumpSoundVariantTwoMP", jumpSoundVariantTwo);
+    this.load.audio("jumpSoundVariantThreeMP", jumpSoundVariantThree);
   }
 
   createJumpSounds() {
-    this.jumpSoundVariantOne = this.sound.add("jumpSoundVariantOne", {
+    this.jumpSoundVariantOne = this.sound.add("jumpSoundVariantOneMP", {
       volume: 0.3,
     });
-    this.jumpSoundVariantTwo = this.sound.add("jumpSoundVariantTwo", {
+    this.jumpSoundVariantTwo = this.sound.add("jumpSoundVariantTwoMP", {
       volume: 0.3,
     });
-    this.jumpSoundVariantThree = this.sound.add("jumpSoundVariantThree", {
+    this.jumpSoundVariantThree = this.sound.add("jumpSoundVariantThreeMP", {
       volume: 0.3,
     });
   }
@@ -385,25 +366,61 @@ class Multiplayer extends Phaser.Scene {
     });
   }
 
+  death() {
+    // console.log(this.DudeMonster.y);
+    this.DudeMonster.y > this.game.config.height &&
+      this.scene.start("GameOver");
+  }
+
+  anotherPlayerJump() {
+    if (this.anotherPlayer.sprite.body.touching.down) {
+      this.anotherPlayer.sprite.setVelocityY(8000);
+      this.selectRandomJumpSound().play();
+    }
+  }
+
   socketListener() {
-    socket.on("offer", (socketId, description) => {
-      remoteConnection = new RTCPeerConnection(ice_servers);
-      midias
-        .getTracks()
-        .forEach((track) => remoteConnection.addTrack(track, midias));
-      remoteConnection.onicecandidate = ({ candidate }) => {
-        candidate && socket.emit("candidate", socketId, candidate);
-      };
-      remoteConnection.ontrack = ({ streams: [midias] }) => {
-        audio.srcObject = midias;
-      };
-      remoteConnection
-        .setRemoteDescription(description)
-        .then(() => remoteConnection.createAnswer())
-        .then((answer) => remoteConnection.setLocalDescription(answer))
-        .then(() => {
-          socket.emit("answer", socketId, remoteConnection.localDescription);
-        });
+    socket.on("player", (playerList) => {
+      this.players = playerList;
+
+      if (playerList.first === socket.id) {
+        this.localPlayer = {
+          sprite: this.DudeMonster,
+          id: socket.id,
+        }; //"first";
+
+        this.anotherPlayer = {
+          sprite: this.OwletMonster,
+          id: playerList.second,
+        }; //"second";
+      } else {
+        this.localPlayer = {
+          sprite: this.OwletMonster,
+          id: socket.id,
+        }; //"second";
+
+        this.anotherPlayer = {
+          sprite: this.DudeMonster,
+          id: playerList.second,
+        }; //"first";
+      }
+
+      console.log(`playerList ${this.players}`);
+      console.log(`localPlayer ${this.localPlayer}`);
+      console.log(`anotherPlayer ${this.anotherPlayer}`);
+    });
+
+    socket.on("anotherPlayerJump", this.anotherPlayerJump());
+
+    socket.on("newPlataform", (coordinates) => {
+      const newPlataform = this.physics.add
+        .sprite(coordinates.x, coordinates.y, "plataformMP")
+        .setScale(2)
+        .setVelocityX(-200)
+        .setImmovable(true)
+        .setOffset(0, 12);
+
+      this.plataformGroup.add(newPlataform);
     });
   }
 }

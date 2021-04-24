@@ -1,12 +1,10 @@
 import Phaser from "phaser";
 
 import {
-  greenSky,
-  jungleLights,
-  farJungle,
-  closerJungle,
-  //----
-  introMusic,
+  highClouds,
+  lowClouds,
+  montainTips,
+  skyBackground,
 } from "../../assets";
 
 class Title extends Phaser.Scene {
@@ -16,11 +14,9 @@ class Title extends Phaser.Scene {
 
   preload() {
     this.loadBackground();
-    // this.loadMusic;
   }
 
   create() {
-    // this.playMusic();
     this.createBackground();
     this.createTexts();
   }
@@ -62,102 +58,50 @@ class Title extends Phaser.Scene {
   }
 
   loadBackground() {
-    // this.load.image("highClouds", highClouds);
-    // this.load.image("lowClouds", lowClouds);
-    // this.load.image("montainTips", montainTips);
-    // this.load.image("skyBackground", skyBackground);
-
-    this.load.image("greenSky", greenSky);
-    this.load.image("jungleLights", jungleLights);
-    this.load.image("farJungle", farJungle);
-    this.load.image("closerJungle", closerJungle);
+    this.load.image("highClouds", highClouds);
+    this.load.image("lowClouds", lowClouds);
+    this.load.image("montainTips", montainTips);
+    this.load.image("skyBackground", skyBackground);
   }
 
   createBackground() {
-    // this.add.image(0, 0, "skyBackground").setOrigin(0, 0);
+    this.add.image(0, 0, "skyBackground").setOrigin(0, 0);
 
-    // this.lowClouds = this.add
-    //   .tileSprite(
-    //     1,
-    //     1,
-    //     this.game.config.width,
-    //     this.game.config.height,
-    //     "lowClouds"
-    //   )
-    //   .setOrigin(0, 0);
-
-    // this.montainTips = this.add
-    //   .tileSprite(
-    //     0,
-    //     0,
-    //     this.game.config.width,
-    //     this.game.config.height,
-    //     "montainTips"
-    //   )
-    //   .setOrigin(0, 0);
-
-    // this.highClouds = this.add
-    //   .tileSprite(
-    //     0,
-    //     0,
-    //     this.game.config.width,
-    //     this.game.config.height,
-    //     "highClouds"
-    //   )
-    //   .setOrigin(0, 0);
-
-    this.add.image(0, 0, "greenSky").setOrigin(0, 0);
-
-    this.farJungle = this.add
+    this.lowClouds = this.add
       .tileSprite(
         1,
         1,
         this.game.config.width,
         this.game.config.height,
-        "farJungle"
+        "lowClouds"
       )
       .setOrigin(0, 0);
 
-    this.jungleLights = this.add
+    this.montainTips = this.add
       .tileSprite(
         0,
         0,
         this.game.config.width,
         this.game.config.height,
-        "jungleLights"
+        "montainTips"
       )
       .setOrigin(0, 0);
 
-    this.closerJungle = this.add
+    this.highClouds = this.add
       .tileSprite(
         0,
         0,
         this.game.config.width,
         this.game.config.height,
-        "closerJungle"
+        "highClouds"
       )
       .setOrigin(0, 0);
   }
 
   parallaxEffect() {
-    // this.lowClouds.tilePositionX += 0.15;
-    // this.montainTips.tilePositionX += 0.1;
-    // this.highClouds.tilePositionX += 0.2;
-
-    this.farJungle.tilePositionX += 0.1;
-    this.jungleLights.tilePositionX += 0.15;
-    this.closerJungle.tilePositionX += 0.2;
-  }
-
-  loadMusic() {
-    this.load.audio("introMusic", introMusic);
-  }
-
-  playMusic() {
-    this.introMusic = this.sound.add("introMusic", {
-      volume: 0.2,
-      loop: true,
-    });
+    this.lowClouds.tilePositionX += 0.15;
+    this.montainTips.tilePositionX += 0.1;
+    this.highClouds.tilePositionX += 0.2;
   }
 }
 

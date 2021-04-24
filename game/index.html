@@ -5,7 +5,7 @@
 
     <title>Yggdrasil</title>
 
-    <meta
+    <!-- <meta
       name="author"
       content="Gabriel Luiz Espindola Pedro, Leonardo de Oliveira Dias and Gabrielly Cristina"
     />
@@ -77,11 +77,34 @@
       rel="apple-touch-icon"
       sizes="512x512"
       href="./src/assets/images/logo/logo512.png"
-    />
+    /> -->
 
-    <!-- <link rel="stylesheet" href="index.css" /> -->
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+
+        background-color: #000;
+      }
+
+      body {
+        width: 100vw;
+        height: 100vh;
+      }
+    </style>
   </head>
   <body>
     <audio id="audio" autoplay></audio>
+
+    <!-- <script type="text/javascript">
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker
+          .register("sw.js")
+          .then((reg) => console.info("Service worker registered: ", reg))
+          .catch((err) =>
+            console.error("Error registering service worker: ", err)
+          );
+      }
+    </script> -->
   </body>
 </html>

@@ -3,10 +3,10 @@ import Phaser from "phaser";
 import { socket } from "../../drivers";
 
 import {
-  redSky,
-  redWood,
-  woodDetails,
-  forest,
+  highClouds,
+  lowClouds,
+  montainTips,
+  skyBackground,
   //----
   introMusic,
 } from "../../assets";
@@ -44,6 +44,8 @@ class Selection extends Phaser.Scene {
       .on(
         "pointerdown",
         () => {
+          this.introMusic.stop();
+
           this.scene.start("SinglePlayer");
         },
         this
@@ -60,7 +62,9 @@ class Selection extends Phaser.Scene {
       .on(
         "pointerdown",
         () => {
-          this.scene.start("Multiplayer");
+          this.introMusic.stop();
+          socket.emit("joinLobby");
+          this.scene.start("Lobby");
         },
         this
       );
@@ -80,54 +84,50 @@ class Selection extends Phaser.Scene {
   }
 
   loadBackground() {
-    this.load.image("redSky", redSky);
-    this.load.image("redWood", redWood);
-    this.load.image("woodDetails", woodDetails);
-    this.load.image("forest", forest);
+    this.load.image("highClouds", highClouds);
+    this.load.image("lowClouds", lowClouds);
+    this.load.image("montainTips", montainTips);
+    this.load.image("skyBackground", skyBackground);
   }
 
   createBackground() {
-    this.add.image(0, 0, "redSky").setOrigin(0, 0);
+    this.add.image(0, 0, "skyBackground").setOrigin(0, 0);
 
-    this.redWood = this.add
-      .tileSprite(
-        0,
-        0,
-        this.game.config.width,
-        this.game.config.height,
-        "redWood"
-      )
-      .setOrigin(0, 0);
-
-    this.woodDetails = this.add
-      .tileSprite(
-        0,
-        0,
-        this.game.config.width,
-        this.game.config.height,
-        "woodDetails"
-      )
-      .setOrigin(0, 0);
-
-    this.forest = this.add
+    this.lowClouds = this.add
       .tileSprite(
         1,
         1,
         this.game.config.width,
         this.game.config.height,
-        "forest"
+        "lowClouds"
+      )
+      .setOrigin(0, 0);
+
+    this.montainTips = this.add
+      .tileSprite(
+        0,
+        0,
+        this.game.config.width,
+        this.game.config.height,
+        "montainTips"
+      )
+      .setOrigin(0, 0);
+
+    this.highClouds = this.add
+      .tileSprite(
+        0,
+        0,
+        this.game.config.width,
+        this.game.config.height,
+        "highClouds"
       )
       .setOrigin(0, 0);
   }
 
   parallaxEffect() {
-    // this.lowClouds.tilePositionX += 0.15;
-    // this.montainTips.tilePositionX += 0.1;
-    // this.highClouds.tilePositionX += 0.2;
-
-    this.forest.tilePositionX += 0.2;
-    this.redWood.tilePositionX += 0.1;
-    this.woodDetails.tilePositionX += 0.15;
+    this.lowClouds.tilePositionX += 0.15;
+    this.montainTips.tilePositionX += 0.1;
+    this.highClouds.tilePositionX += 0.2;
   }
 
   loadMusic() {
@@ -136,9 +136,11 @@ class Selection extends Phaser.Scene {
 
   playMusic() {
     this.introMusic = this.sound.add("introMusic", {
-      volume: 0.2,
+      volume: 0.05,
       loop: true,
     });
+
+    this.introMusic.play();
   }
 }
 
