@@ -45,22 +45,22 @@ class Multiplayer extends Phaser.Scene {
     this.createPlataform();
     this.removeUnseenPlataforms();
 
-    // this.addColiders();
+    this.addColiders();
 
-    // this.gameControl();
+    this.gameControl();
     this.incrementScore();
 
-    // this.animatePlayerSprites();
-    // this.playAnimations();
+    this.animatePlayerSprites();
+    this.playAnimations();
   }
 
   update() {
     this.parallaxEffect();
-    // this.animationSelector();
+    this.animationSelector();
 
-    // this.centralizePlayers();
+    this.centralizePlayers();
 
-    // this.death();
+    this.death();
   }
 
   //Custom methods
@@ -367,7 +367,6 @@ class Multiplayer extends Phaser.Scene {
   }
 
   death() {
-    // console.log(this.DudeMonster.y);
     this.DudeMonster.y > this.game.config.height &&
       this.scene.start("GameOver");
   }
